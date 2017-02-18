@@ -40,7 +40,6 @@ class TitleScreen(game: OthelloGame) extends Screen {
     game.batch.end()
   }
 
-
   override def resize(width: Int, height: Int) {}
 
   override def show() {}
