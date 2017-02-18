@@ -2,7 +2,7 @@ package jp._5000164.libgdx_othello
 
 import com.badlogic.gdx.graphics.g2d.{BitmapFont, SpriteBatch}
 import com.badlogic.gdx.graphics.{GL20, OrthographicCamera}
-import com.badlogic.gdx.{Game, Gdx, Screen}
+import com.badlogic.gdx.{Game, Gdx, Input, Screen}
 
 class OthelloGame extends Game {
   var batch: SpriteBatch = _
@@ -37,6 +37,39 @@ class TitleScreen(game: OthelloGame) extends Screen {
 
     game.batch.begin()
     game.font.draw(game.batch, "Othello Game", 100, 100)
+    game.batch.end()
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+      game.setScreen(new PlayScreen(game))
+    }
+  }
+
+  override def resize(width: Int, height: Int) {}
+
+  override def show() {}
+
+  override def hide() {}
+
+  override def pause() {}
+
+  override def resume() {}
+
+  override def dispose() {}
+}
+
+class PlayScreen(game: OthelloGame) extends Screen {
+  val camera = new OrthographicCamera()
+  camera.setToOrtho(false, 800, 480)
+
+  override def render(delta: Float) {
+    Gdx.gl.glClearColor(0, 0, 0, 1)
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
+    camera.update()
+    game.batch.setProjectionMatrix(camera.combined)
+
+    game.batch.begin()
+    game.font.draw(game.batch, "Play", 100, 100)
     game.batch.end()
   }
 
