@@ -1,6 +1,7 @@
 package jp._5000164.libgdx_othello
 
 import com.badlogic.gdx.graphics.g2d.{BitmapFont, SpriteBatch}
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.{GL20, OrthographicCamera}
 import com.badlogic.gdx.{Game, Gdx, Input, Screen}
 
@@ -60,6 +61,7 @@ class TitleScreen(game: OthelloGame) extends Screen {
 class PlayScreen(game: OthelloGame) extends Screen {
   val camera = new OrthographicCamera()
   camera.setToOrtho(false, 800, 480)
+  lazy val shapeRenderer = new ShapeRenderer()
 
   override def render(delta: Float) {
     Gdx.gl.glClearColor(0, 0, 0, 1)
@@ -67,6 +69,16 @@ class PlayScreen(game: OthelloGame) extends Screen {
 
     camera.update()
     game.batch.setProjectionMatrix(camera.combined)
+
+    shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
+
+    for (i <- 1 to 10; j <- 1 to 10) {
+      val x = i * 22
+      val y = j * 22
+      shapeRenderer.rect(x.toFloat, y.toFloat, 20f, 20f)
+    }
+
+    shapeRenderer.end()
 
     game.batch.begin()
     game.font.draw(game.batch, "Play", 100, 100)
