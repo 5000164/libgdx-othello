@@ -70,17 +70,20 @@ class PlayScreen(game: OthelloGame) extends Screen {
 
   val stage = new Stage(new ScreenViewport())
   Gdx.input.setInputProcessor(stage)
-  val tbs = new TextButtonStyle()
-  tbs.font = game.font
-  val tb = new TextButton("Text on the Button", tbs)
-  tb.setPosition(300f, 300f)
-  tb.getLabel.setFontScale(2)
-  tb.addListener(new ClickListener {
-    override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
-      println("clicked")
-    }
-  })
-  stage.addActor(tb)
+
+  for (i <- 1 to 8; j <- 1 to 8) {
+    val tbs = new TextButtonStyle()
+    tbs.font = game.font
+    val tb = new TextButton("o", tbs)
+    tb.setPosition(i * 50f, j * 50f)
+    tb.getLabel.setFontScale(2)
+    tb.addListener(new ClickListener {
+      override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+        println(s"i:$i j:$j")
+      }
+    })
+    stage.addActor(tb)
+  }
 
   override def render(delta: Float) {
     Gdx.gl.glClearColor(0, 0, 0, 1)
