@@ -76,7 +76,6 @@ class PlayScreen(game: OthelloGame) extends Screen {
     tbs.font = game.font
     val tb = new TextButton("o", tbs)
     tb.setPosition(i * 50f, j * 50f)
-    tb.getLabel.setFontScale(2)
     tb.addListener(new ClickListener {
       override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
         println(s"i:$i j:$j")
@@ -94,16 +93,16 @@ class PlayScreen(game: OthelloGame) extends Screen {
 
     shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
 
-    for (i <- 1 to 10; j <- 1 to 10) {
-      val x = i * 22
-      val y = j * 22
-      shapeRenderer.rect(x.toFloat, y.toFloat, 20f, 20f)
+    for (i <- 1 to 8; j <- 1 to 8) {
+      val x = i * 50f
+      val y = j * 50f
+      shapeRenderer.rect(x - 25f, y - 25f, 50f, 50f)
     }
 
     shapeRenderer.end()
 
     game.batch.begin()
-    game.font.draw(game.batch, "Play", 100, 100)
+    game.font.draw(game.batch, "Play", 20, 20)
     game.batch.end()
 
     stage.act(delta)
