@@ -25,6 +25,16 @@ class BoardSpec extends FreeSpec {
         val status = White
         Board.assign(boardData, position, status)
       }
+
+      "盤面の情報を計算する" - {
+        "指定された情報を追加する" in {
+          val boardData = BoardData(Array(Array()))
+          val position = Position(1, 1)
+          val status = White
+          val result = Board.assign(boardData, position, status)
+          assert(White == result.data(0)(0))
+        }
+      }
     }
   }
 }
