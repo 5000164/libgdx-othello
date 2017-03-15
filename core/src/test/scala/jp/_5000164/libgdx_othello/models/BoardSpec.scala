@@ -8,13 +8,22 @@ class BoardSpec extends FreeSpec {
       "BoardData を受け取って BoardData を返す" in {
         val boardData: BoardData = BoardData(Array(Array(1)))
         val position = Position(1, 1)
-        assert(Board.assign(boardData, position).isInstanceOf[BoardData])
+        val status = White
+        assert(Board.assign(boardData, position, status).isInstanceOf[BoardData])
       }
 
       "処理対象の位置情報を受け取る" in {
         val boardData = BoardData(Array(Array(1)))
         val position = Position(1, 1)
-        Board.assign(boardData, position)
+        val status = White
+        Board.assign(boardData, position, status)
+      }
+
+      "置かれた石の情報を受け取る" in {
+        val boardData = BoardData(Array(Array(1)))
+        val position = Position(1, 1)
+        val status = White
+        Board.assign(boardData, position, status)
       }
     }
   }
