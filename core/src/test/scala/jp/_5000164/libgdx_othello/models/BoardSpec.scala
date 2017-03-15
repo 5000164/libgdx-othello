@@ -5,7 +5,7 @@ import org.scalatest.FreeSpec
 class BoardSpec extends FreeSpec {
   "Board" - {
     "assign" - {
-      "BoardData を受け取って BoardData を返す" in {
+      "ボード情報を受け取ってボード情報を返す" in {
         val boardData: BoardData = BoardData(Array(Array(1)))
         val position = Position(1, 1)
         val status = White
