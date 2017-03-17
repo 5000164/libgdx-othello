@@ -1,5 +1,8 @@
 package jp._5000164.libgdx_othello.models
 
+/**
+ * 盤面の状態を表す
+ */
 sealed abstract class Status
 case object White extends Status
 case object Black extends Status
