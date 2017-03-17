@@ -8,3 +8,10 @@ case object White extends Status
 case object Black extends Status
 case object Empty extends Status
 case object Assignable extends Status
+
+/**
+ * 手番を表す
+ */
+sealed abstract class MoveStatus
+case object WhiteMove extends MoveStatus
+case object BlackMove extends MoveStatus
