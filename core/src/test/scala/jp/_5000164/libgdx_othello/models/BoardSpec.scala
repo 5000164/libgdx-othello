@@ -4,6 +4,21 @@ import org.scalatest.FreeSpec
 
 class BoardSpec extends FreeSpec {
   "Board" - {
+    "initialize" - {
+      "盤面を初期化できる" in {
+        assert(BoardData(List(
+          List(Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty),
+          List(Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty),
+          List(Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty),
+          List(Empty, Empty, Empty, White, Black, Empty, Empty, Empty),
+          List(Empty, Empty, Empty, Black, White, Empty, Empty, Empty),
+          List(Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty),
+          List(Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty),
+          List(Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty)
+        )) == Board.initialize)
+      }
+    }
+
     "assign" - {
       "ボード情報を受け取ってボード情報を返す" in {
         val boardData: BoardData = BoardData(List(List()))
