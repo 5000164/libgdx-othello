@@ -7,3 +7,4 @@ sealed abstract class Status
 case object White extends Status
 case object Black extends Status
 case object Empty extends Status
+case object Assignable extends Status
