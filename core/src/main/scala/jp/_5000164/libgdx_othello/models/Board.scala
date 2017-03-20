@@ -48,39 +48,47 @@ object Board {
    * @return 渡された情報に結果を付与した情報
    */
   def calculateAssignable(calculateAssignableData: CalculateAssignableData): CalculateAssignableData = {
-    // TODO: 途中まで判定した結果ひっくり返せなかった場合を考慮する
-
     // 判定対象を移動する
     val judgeX = calculateAssignableData.coordinate.x + calculateAssignableData.direction.x
     val judgeY = calculateAssignableData.coordinate.y + calculateAssignableData.direction.y
 
     // 対象が空、もしくは盤面の外だったら処理を終了する
+    // 空、もしくは盤面の外で処理を終了した場合は石は置くことはできない
     if (calculateAssignableData.boardData.data.getOrElse(judgeY, Map()).getOrElse(judgeX, Empty) == Empty) {
       return CalculateAssignableData(
         calculateAssignableData.boardData,
         calculateAssignableData.coordinate,
         calculateAssignableData.direction,
-        calculateAssignableData.moveStatus
+        calculateAssignableData.moveStatus,
+        None,
+        calculateAssignableData.existsOpponentStone
       )
     }
 
     // 対象が自分と同じ色だったら処理を終了する
+    // 相手の石が存在し、自分と同じ色で処理が終了した場合は石を置くことができるのでひっくり返せる座標の情報を付与する
     val myStatus = if (calculateAssignableData.moveStatus == BlackMove) Black else White
     if (calculateAssignableData.boardData.data.getOrElse(judgeY, Map()).getOrElse(judgeX, Empty) == myStatus) {
+      val upsetCoordinate = if (calculateAssignableData.existsOpponentStone) Some(Coordinate(calculateAssignableData.coordinate.x, calculateAssignableData.coordinate.y)) else None
       return CalculateAssignableData(
         calculateAssignableData.boardData,
         calculateAssignableData.coordinate,
         calculateAssignableData.direction,
-        calculateAssignableData.moveStatus
+        calculateAssignableData.moveStatus,
+        upsetCoordinate,
+        calculateAssignableData.existsOpponentStone
       )
     }
 
     // 端に到達するまで判定を行う
+    // 一度でも座標を移動するということは相手の石は存在している
     calculateAssignable(CalculateAssignableData(
       calculateAssignableData.boardData,
       Coordinate(judgeX, judgeY),
       calculateAssignableData.direction,
-      calculateAssignableData.moveStatus
+      calculateAssignableData.moveStatus,
+      calculateAssignableData.upsetCoordinate,
+      existsOpponentStone = true
     ))
   }
 }
@@ -115,15 +123,19 @@ case class AssignResult(boardData: BoardData, assignable: Boolean) {
 /**
  * 盤面に石を置けるかどうか判断するのに必要なデータを表す
  *
- * @param boardData  盤面の状態
- * @param coordinate 石を置こうとしている座標
- * @param direction  石をひっくり返せるか判定する方向
- * @param moveStatus 現在の手番
+ * @param boardData           盤面の状態
+ * @param coordinate          石を置こうとしている座標
+ * @param direction           石をひっくり返せるか判定する方向
+ * @param moveStatus          現在の手番
+ * @param upsetCoordinate     ひっくり返せる限界の座標、ひっくり返せない場合は None になる
+ * @param existsOpponentStone 相手の石が存在するかどうか
  */
 case class CalculateAssignableData(
                                     boardData: BoardData,
                                     coordinate: Coordinate,
                                     direction: Direction,
-                                    moveStatus: MoveStatus
+                                    moveStatus: MoveStatus,
+                                    upsetCoordinate: Option[Coordinate],
+                                    existsOpponentStone: Boolean
                                   ) {
 }
