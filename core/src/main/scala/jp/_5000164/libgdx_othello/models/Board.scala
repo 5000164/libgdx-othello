@@ -29,13 +29,24 @@ object Board {
    * @return 渡された盤面に石を置いた後の盤面
    */
   def assign(boardData: BoardData, coordinate: Coordinate, status: Status): AssignResult = {
-    // すでに石が置いてあるか判断する
+    // すでに石が置いてあったらそこには置けないと判断する
     if (boardData.data.getOrElse(coordinate.y, Map()).getOrElse(coordinate.x, Black) != Empty) {
       return AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = false)
     }
 
-    for (x <- -1 to 1; y <- -1 to 1 if x != 0 || y != 0) {
-      // TODO: 各方向に対してひっくり返せるか判定する
+    // 各方向に対してひっくり返せるか計算した結果を取得する
+    val assignableList = (for (x <- -1 to 1; y <- -1 to 1 if x != 0 || y != 0) yield calculateAssignable(CalculateAssignableData(
+      boardData,
+      coordinate,
+      Direction(x, y),
+      if (status == Black) BlackMove else WhiteMove,
+      None,
+      existsOpponentStone = false
+    ))).filter(_.upsetCoordinate.isDefined)
+
+    // ひっくり返せる情報がなかったらそこには置けないと判断する
+    if (assignableList.isEmpty) {
+      return AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = false)
     }
 
     AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = true)
