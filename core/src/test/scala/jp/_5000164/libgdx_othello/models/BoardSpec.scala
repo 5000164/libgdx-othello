@@ -64,6 +64,14 @@ class BoardSpec extends FreeSpec {
         val result = Board.assign(boardData, coordinate, status)
         assert(result.assignable)
       }
+
+      "石を置けなかった時に盤面の状態は変わっていない" in {
+        val boardData = BoardData(Map(1 -> Map(1 -> Black, 2 -> White, 3 -> Empty)))
+        val coordinate = Coordinate(1, 1)
+        val status = Black
+        val result = Board.assign(boardData, coordinate, status)
+        assert(result.boardData == BoardData(Map(1 -> Map(1 -> Black, 2 -> White, 3 -> Empty))))
+      }
     }
 
     "calculateAssignable" - {

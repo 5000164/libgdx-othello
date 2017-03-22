@@ -31,7 +31,7 @@ object Board {
   def assign(boardData: BoardData, coordinate: Coordinate, status: Status): AssignResult = {
     // すでに石が置いてあったらそこには置けないと判断する
     if (boardData.data.getOrElse(coordinate.y, Map()).getOrElse(coordinate.x, Black) != Empty) {
-      return AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = false)
+      return AssignResult(boardData, assignable = false)
     }
 
     // 各方向に対してひっくり返せるか計算した結果を取得する
@@ -46,7 +46,7 @@ object Board {
 
     // ひっくり返せる情報がなかったらそこには置けないと判断する
     if (assignableList.isEmpty) {
-      return AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = false)
+      return AssignResult(boardData, assignable = false)
     }
 
     AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = true)
