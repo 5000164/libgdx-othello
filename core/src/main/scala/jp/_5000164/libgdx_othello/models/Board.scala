@@ -35,7 +35,7 @@ object Board {
     }
 
     // 各方向に対してひっくり返せるか計算した結果を取得する
-    val assignableList = (for (x <- -1 to 1; y <- -1 to 1 if x != 0 || y != 0) yield calculateAssignable(CalculateAssignableData(
+    val assignableList = (for (x <- -1 to 1; y <- -1 to 1 if !(x == 0 && y == 0)) yield calculateAssignable(CalculateAssignableData(
       boardData,
       coordinate,
       Direction(x, y),
