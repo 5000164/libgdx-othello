@@ -42,7 +42,7 @@ object Board {
       if (status == Black) BlackMove else WhiteMove,
       None,
       existsOpponentStone = false
-    ))).filter(_.upsetCoordinate.isDefined)
+    ))).collect { case a if a.upsetCoordinate.isDefined => a.upsetCoordinate.get }.toList
 
     // ひっくり返せる情報がなかったらそこには置けないと判断する
     if (assignableList.isEmpty) {
