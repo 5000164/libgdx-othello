@@ -70,10 +70,10 @@ object Board {
   }
 
   /**
-   * 盤面の状態と打たれた石の情報から石を置けるかどうかを判断する
+   * 盤面の状態と打たれた石の情報からひっくり返せるかどうか計算する
    *
-   * @param calculateAssignableData 盤面と打たれた石の情報
-   * @return 渡された情報に結果を付与した情報
+   * @param calculateAssignableData 盤面と打たれた石の情報と計算中の情報
+   * @return 渡された情報に計算結果を付与した情報
    */
   def calculateAssignable(calculateAssignableData: CalculateAssignableData): CalculateAssignableData = {
     // 判定対象を移動する
