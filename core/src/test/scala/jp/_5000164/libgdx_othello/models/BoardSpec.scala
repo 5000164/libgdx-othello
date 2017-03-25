@@ -82,7 +82,7 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
@@ -96,7 +96,7 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
@@ -110,7 +110,7 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
@@ -124,7 +124,7 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
@@ -138,7 +138,7 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
@@ -152,11 +152,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinateList.contains(List(Coordinate(2, 1))))
+        assert(result.upsetCoordinateList == List(Coordinate(2, 1)))
       }
 
       "石を置けたと判断して 2 マス右までのひっくり返せる座標の一覧を取得できる" in {
@@ -166,11 +166,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinateList.contains(List(Coordinate(3, 1))))
+        assert(result.upsetCoordinateList == List(Coordinate(3, 1)))
       }
 
       "石を置けたと判断して 1 マス左上までのひっくり返せる座標の一覧を取得できる" in {
@@ -182,11 +182,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(3, 3)
         val direction = Direction(-1, -1)
         val moveStatus = WhiteMove
-        val upsetCoordinateList = None
+        val upsetCoordinateList = Nil
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinateList.contains(List(Coordinate(2, 2))))
+        assert(result.upsetCoordinateList == List(Coordinate(2, 2)))
       }
     }
   }

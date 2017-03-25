@@ -40,9 +40,9 @@ object Board {
       coordinate,
       Direction(x, y),
       if (status == Black) BlackMove else WhiteMove,
-      None,
+      Nil,
       existsOpponentStone = false
-    ))).collect { case a if a.upsetCoordinateList.isDefined => a.upsetCoordinateList.get }.flatten.toList
+    ))).collect { case d if d.upsetCoordinateList.nonEmpty => d.upsetCoordinateList }.flatten.toList
 
     // ひっくり返せる情報がなかったらそこには置けないと判断する
     if (upsetCoordinateList.isEmpty) {
@@ -71,7 +71,7 @@ object Board {
         calculateAssignableData.coordinate,
         calculateAssignableData.direction,
         calculateAssignableData.moveStatus,
-        None,
+        Nil,
         calculateAssignableData.existsOpponentStone
       )
     }
@@ -81,9 +81,9 @@ object Board {
     val myStatus = if (calculateAssignableData.moveStatus == BlackMove) Black else White
     if (calculateAssignableData.boardData.data.getOrElse(judgeY, Map()).getOrElse(judgeX, Empty) == myStatus) {
       val upsetCoordinateList = if (calculateAssignableData.existsOpponentStone) {
-        Some(Coordinate(calculateAssignableData.coordinate.x, calculateAssignableData.coordinate.y) :: calculateAssignableData.upsetCoordinateList.getOrElse(Nil))
+        Coordinate(calculateAssignableData.coordinate.x, calculateAssignableData.coordinate.y) :: calculateAssignableData.upsetCoordinateList
       } else {
-        None
+        Nil
       }
       return CalculateAssignableData(
         calculateAssignableData.boardData,
@@ -150,7 +150,7 @@ case class CalculateAssignableData(
                                     coordinate: Coordinate,
                                     direction: Direction,
                                     moveStatus: MoveStatus,
-                                    upsetCoordinateList: Option[List[Coordinate]],
+                                    upsetCoordinateList: List[Coordinate],
                                     existsOpponentStone: Boolean
                                   ) {
 }
