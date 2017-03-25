@@ -60,7 +60,7 @@ object Board {
       coordinate,
       Direction(x, y),
       moveStatus,
-      Nil,
+      upsetCoordinateList = Nil,
       existsOpponentStone = false
     ))).collect { case d if d.upsetCoordinateList.nonEmpty => d.upsetCoordinateList }.flatten.toList
   }
@@ -84,7 +84,7 @@ object Board {
         calculateAssignableData.coordinate,
         calculateAssignableData.direction,
         calculateAssignableData.moveStatus,
-        Nil,
+        upsetCoordinateList = Nil,
         calculateAssignableData.existsOpponentStone
       )
     }
