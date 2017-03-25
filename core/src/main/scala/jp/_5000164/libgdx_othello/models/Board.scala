@@ -93,17 +93,12 @@ object Board {
     // 相手の石が存在し、自分と同じ色で処理が終了した場合は石を置くことができるのでひっくり返せる座標の情報を付与する
     val myStatus = if (calculateAssignableData.moveStatus == BlackMove) Black else White
     if (calculateAssignableData.boardData.data.getOrElse(judgeY, Map()).getOrElse(judgeX, Empty) == myStatus) {
-      val upsetCoordinateList = if (calculateAssignableData.existsOpponentStone) {
-        Coordinate(calculateAssignableData.coordinate.x, calculateAssignableData.coordinate.y) :: calculateAssignableData.upsetCoordinateList
-      } else {
-        Nil
-      }
       return CalculateAssignableData(
         calculateAssignableData.boardData,
         calculateAssignableData.coordinate,
         calculateAssignableData.direction,
         calculateAssignableData.moveStatus,
-        upsetCoordinateList,
+        upsetCoordinateList = if (calculateAssignableData.existsOpponentStone) Coordinate(calculateAssignableData.coordinate.x, calculateAssignableData.coordinate.y) :: calculateAssignableData.upsetCoordinateList else Nil,
         calculateAssignableData.existsOpponentStone
       )
     }
