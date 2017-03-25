@@ -128,8 +128,10 @@ class PlayScreen(game: OthelloGame) extends Screen {
       }
     }
 
+    // 現在の手番を表示する
+    val moveStatusString = game.moveStatus.toString
     game.batch.begin()
-    game.font.draw(game.batch, "Play", 20, 20)
+    game.font.draw(game.batch, moveStatusString, 20, 20)
     game.batch.end()
 
     stage.act(delta)
