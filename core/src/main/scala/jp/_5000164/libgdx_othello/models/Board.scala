@@ -34,22 +34,35 @@ object Board {
       return AssignResult(boardData, assignable = false)
     }
 
-    // 各方向に対してひっくり返せるか計算した結果を取得する
-    val upsetCoordinateList = (for (x <- -1 to 1; y <- -1 to 1 if !(x == 0 && y == 0)) yield calculateAssignable(CalculateAssignableData(
-      boardData,
-      coordinate,
-      Direction(x, y),
-      if (status == Black) BlackMove else WhiteMove,
-      Nil,
-      existsOpponentStone = false
-    ))).collect { case d if d.upsetCoordinateList.nonEmpty => d.upsetCoordinateList }.flatten.toList
+    // ひっくり返せる座標の一覧を計算する
+    val upsetCoordinateList = calculateUpsetCoordinateList(boardData, coordinate, if (status == Black) BlackMove else WhiteMove)
 
-    // ひっくり返せる情報がなかったらそこには置けないと判断する
+    // ひっくり返せる座標がなかったらそこには置けないと判断する
     if (upsetCoordinateList.isEmpty) {
       return AssignResult(boardData, assignable = false)
     }
 
     AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = true)
+  }
+
+  /**
+   * ひっくり返せる座標の一覧を計算する
+   *
+   * @param boardData  盤面の状態
+   * @param coordinate 石を置こうとした座標
+   * @param moveStatus 石を置こうとした手番
+   * @return ひっくり返せる座標の一覧
+   */
+  def calculateUpsetCoordinateList(boardData: BoardData, coordinate: Coordinate, moveStatus: MoveStatus): List[Coordinate] = {
+    // 8 方向に対してひっくり返せるかを計算する
+    (for (x <- -1 to 1; y <- -1 to 1 if !(x == 0 && y == 0)) yield calculateAssignable(CalculateAssignableData(
+      boardData,
+      coordinate,
+      Direction(x, y),
+      moveStatus,
+      Nil,
+      existsOpponentStone = false
+    ))).collect { case d if d.upsetCoordinateList.nonEmpty => d.upsetCoordinateList }.flatten.toList
   }
 
   /**
