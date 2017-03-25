@@ -15,6 +15,7 @@ class OthelloGame extends Game {
   var batch: SpriteBatch = _
   var font: BitmapFont = _
   var boardData: BoardData = Board.initialize
+  var moveStatus: MoveStatus = BlackMove
 
   override def create() {
     batch = new SpriteBatch()
@@ -80,7 +81,14 @@ class PlayScreen(game: OthelloGame) extends Screen {
     tb.setPosition(i * 50f, 450 - j * 50f)
     tb.addListener(new ClickListener {
       override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
-        println(s"i:$i j:$j")
+        val assignResult = Board.assign(game.boardData, Coordinate(i, j), if (game.moveStatus == BlackMove) Black else White)
+        game.boardData = assignResult.boardData
+        if (assignResult.assignable) {
+          game.moveStatus = game.moveStatus match {
+            case BlackMove => WhiteMove
+            case WhiteMove => BlackMove
+          }
+        }
       }
     })
     stage.addActor(tb)
