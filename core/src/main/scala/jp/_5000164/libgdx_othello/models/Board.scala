@@ -42,7 +42,11 @@ object Board {
       return AssignResult(boardData, assignable = false)
     }
 
-    AssignResult(BoardData(Map(1 -> Map(1 -> White))), assignable = true)
+    // 石を置ける場合は置いた石も盤面に反映させるためにひっくり返せる座標の一覧に加える
+    val updateStatusCoordinateList = coordinate :: upsetCoordinateList
+
+    // 石を置いた後の盤面の状態を結果として返す
+    AssignResult(upset(boardData, status, updateStatusCoordinateList), assignable = true)
   }
 
   /**
@@ -113,6 +117,20 @@ object Board {
       calculateAssignableData.upsetCoordinateList,
       existsOpponentStone = true
     ))
+  }
+
+  /**
+   * 盤面の石の情報を更新する
+   *
+   * @param boardData                  現在の盤面の状態
+   * @param status                     上書きする石の状態
+   * @param updateStatusCoordinateList 石の状態を上書きする座標の一覧
+   * @return 石の情報を反映した後の盤面の状態
+   */
+  def upset(boardData: BoardData, status: Status, updateStatusCoordinateList: List[Coordinate]): BoardData = {
+    updateStatusCoordinateList.foldLeft(boardData) {
+      (boardData, updateStatusCoordinate) => BoardData(boardData.data.updated(updateStatusCoordinate.y, boardData.data(updateStatusCoordinate.y).updated(updateStatusCoordinate.x, status)))
+    }
   }
 }
 
