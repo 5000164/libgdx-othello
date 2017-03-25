@@ -82,11 +82,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.isEmpty)
+        assert(result.upsetCoordinateList.isEmpty)
       }
 
       "渡された方向がすぐに盤面の外だったら石を置けないと判断する" in {
@@ -96,11 +96,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.isEmpty)
+        assert(result.upsetCoordinateList.isEmpty)
       }
 
       "渡された方向の状態がすぐに自分と同じ色だったら石を置けないと判断する" in {
@@ -110,11 +110,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.isEmpty)
+        assert(result.upsetCoordinateList.isEmpty)
       }
 
       "空のマスまで探索してひっくり返せなかった場合は石を置けないと判断する" in {
@@ -124,11 +124,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.isEmpty)
+        assert(result.upsetCoordinateList.isEmpty)
       }
 
       "画面端まで探索してひっくり返せなかった場合は石を置けないと判断する" in {
@@ -138,42 +138,42 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.isEmpty)
+        assert(result.upsetCoordinateList.isEmpty)
       }
 
-      "石を置けたと判断してひっくり返せる座標の最大である 1 マス右の座標を取得できる" in {
+      "石を置けたと判断して 1 マス右までのひっくり返せる座標の一覧を取得できる" in {
         val boardData = BoardData(Map(
           1 -> Map(1 -> Empty, 2 -> White, 3 -> Black)
         ))
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.contains(Coordinate(2, 1)))
+        assert(result.upsetCoordinateList.contains(List(Coordinate(2, 1))))
       }
 
-      "石を置けたと判断してひっくり返せる座標の最大である 2 マス右の座標を取得できる" in {
+      "石を置けたと判断して 2 マス右までのひっくり返せる座標の一覧を取得できる" in {
         val boardData = BoardData(Map(
           1 -> Map(1 -> Empty, 2 -> White, 3 -> White, 4 -> Black)
         ))
         val coordinate = Coordinate(1, 1)
         val direction = Direction(1, 0)
         val moveStatus = BlackMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.contains(Coordinate(3, 1)))
+        assert(result.upsetCoordinateList.contains(List(Coordinate(3, 1))))
       }
 
-      "石を置けたと判断してひっくり返せる座標の最大である 1 マス左上の座標を取得できる" in {
+      "石を置けたと判断して 1 マス左上までのひっくり返せる座標の一覧を取得できる" in {
         val boardData = BoardData(Map(
           1 -> Map(1 -> White, 2 -> Empty, 3 -> Empty),
           2 -> Map(1 -> Empty, 2 -> Black, 3 -> Empty),
@@ -182,11 +182,11 @@ class BoardSpec extends FreeSpec {
         val coordinate = Coordinate(3, 3)
         val direction = Direction(-1, -1)
         val moveStatus = WhiteMove
-        val upsetCoordinate = None
+        val upsetCoordinateList = None
         val existsOpponentStone = false
-        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinate, existsOpponentStone)
+        val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinate.contains(Coordinate(2, 2)))
+        assert(result.upsetCoordinateList.contains(List(Coordinate(2, 2))))
       }
     }
   }
