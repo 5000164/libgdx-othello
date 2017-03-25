@@ -9,10 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.{InputEvent, Stage}
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.{Game, Gdx, Input, Screen}
+import jp._5000164.libgdx_othello.models._
 
 class OthelloGame extends Game {
   var batch: SpriteBatch = _
   var font: BitmapFont = _
+  var boardData: BoardData = Board.initialize
 
   override def create() {
     batch = new SpriteBatch()
@@ -99,6 +101,24 @@ class PlayScreen(game: OthelloGame) extends Screen {
       shapeRenderer.rect(x - 25f, y - 25f, 50f, 50f)
     }
     shapeRenderer.end()
+
+    // 石を描画する
+    for (i <- 1 to 8; j <- 1 to 8) {
+      val x = i * 50f
+      val y = 450 - j * 50f
+      val boardX = i
+      val boardY = j
+      val shapeType = game.boardData.data(boardY)(boardX) match {
+        case Black => Some(ShapeRenderer.ShapeType.Line)
+        case White => Some(ShapeRenderer.ShapeType.Filled)
+        case Empty => None
+      }
+      if (shapeType.isDefined) {
+        shapeRenderer.begin(shapeType.get)
+        shapeRenderer.circle(x, y, 20f)
+        shapeRenderer.end()
+      }
+    }
 
     game.batch.begin()
     game.font.draw(game.batch, "Play", 20, 20)
