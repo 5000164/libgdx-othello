@@ -94,7 +94,7 @@ object Board {
     }
 
     // 対象が自分と同じ色だったら処理を終了する
-    // 相手の石が存在し、自分と同じ色で処理が終了した場合は石を置くことができるのでひっくり返せる座標の情報を付与する
+    // 相手の石が存在し、自分と同じ色で処理が終了した場合は石を置くことができるのでひっくり返せる座標の候補を正式にひっくり返せるものとして返す
     val myStatus = if (calculateAssignableData.moveStatus == BlackMove) Black else White
     if (calculateAssignableData.boardData.data.getOrElse(judgeY, Map()).getOrElse(judgeX, Empty) == myStatus) {
       return CalculateAssignableData(
@@ -102,19 +102,20 @@ object Board {
         calculateAssignableData.coordinate,
         calculateAssignableData.direction,
         calculateAssignableData.moveStatus,
-        upsetCoordinateList = if (calculateAssignableData.existsOpponentStone) Coordinate(calculateAssignableData.coordinate.x, calculateAssignableData.coordinate.y) :: calculateAssignableData.upsetCoordinateList else Nil,
+        upsetCoordinateList = if (calculateAssignableData.existsOpponentStone) calculateAssignableData.upsetCoordinateList else Nil,
         calculateAssignableData.existsOpponentStone
       )
     }
 
     // 端に到達するまで判定を行う
+    // 判定を行った座標はひっくり返せる座標の候補として追加する
     // 一度でも座標を移動するということは相手の石は存在している
     calculateAssignable(CalculateAssignableData(
       calculateAssignableData.boardData,
       Coordinate(judgeX, judgeY),
       calculateAssignableData.direction,
       calculateAssignableData.moveStatus,
-      calculateAssignableData.upsetCoordinateList,
+      upsetCoordinateList = Coordinate(judgeX, judgeY) :: calculateAssignableData.upsetCoordinateList,
       existsOpponentStone = true
     ))
   }

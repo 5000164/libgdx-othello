@@ -178,7 +178,7 @@ class BoardSpec extends FreeSpec {
         val existsOpponentStone = false
         val calculateAssignableData = CalculateAssignableData(boardData, coordinate, direction, moveStatus, upsetCoordinateList, existsOpponentStone)
         val result = Board.calculateAssignable(calculateAssignableData)
-        assert(result.upsetCoordinateList == List(Coordinate(3, 1)))
+        assert(result.upsetCoordinateList == List(Coordinate(3, 1), Coordinate(2, 1)))
       }
 
       "石を置けたと判断して 1 マス左上までのひっくり返せる座標の一覧を取得できる" in {
