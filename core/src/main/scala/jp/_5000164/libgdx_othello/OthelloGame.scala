@@ -91,14 +91,13 @@ class PlayScreen(game: OthelloGame) extends Screen {
     camera.update()
     game.batch.setProjectionMatrix(camera.combined)
 
+    // 盤面のマス目を描画する
     shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
-
     for (i <- 1 to 8; j <- 1 to 8) {
       val x = i * 50f
       val y = j * 50f
       shapeRenderer.rect(x - 25f, y - 25f, 50f, 50f)
     }
-
     shapeRenderer.end()
 
     game.batch.begin()
