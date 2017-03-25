@@ -1,7 +1,7 @@
 package jp._5000164.libgdx_othello.models
 
 /**
- * オセロの盤面について処理を提供する
+ * オセロの盤面についての処理を提供する
  */
 object Board {
   /**
