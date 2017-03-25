@@ -12,9 +12,9 @@ class BoardDataSpec extends FreeSpec {
     }
 
     "盤面の情報を元に新しい盤面を作る" in {
-      val boardData: BoardData = BoardData(Map(1 -> Map(1 -> Empty)))
-      val newBoardData = BoardData(boardData.data.updated(1, Map(1 -> Black)))
-      assert(newBoardData.data(1)(1) == Black)
+      val boardData: BoardData = BoardData(Map(1 -> Map(1 -> Empty, 2 -> Empty), 2 -> Map(1 -> Empty, 2 -> Empty)))
+      val newBoardData = BoardData(boardData.data.updated(1, boardData.data(1).updated(1, Black)))
+      assert(newBoardData.data == Map(1 -> Map(1 -> Black, 2 -> Empty), 2 -> Map(1 -> Empty, 2 -> Empty)))
     }
   }
 }
