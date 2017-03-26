@@ -77,8 +77,9 @@ class PlayScreen(game: OthelloGame) extends Screen {
   for (i <- 1 to 8; j <- 1 to 8) {
     val tbs = new TextButtonStyle()
     tbs.font = game.font
-    val tb = new TextButton("o", tbs)
-    tb.setPosition(i * 50f, 450 - j * 50f)
+    val tb = new TextButton("", tbs)
+    tb.setSize(50f, 50f)
+    tb.setPosition(i * 50f - 25f, 450 - j * 50f - 25f)
     tb.addListener(new ClickListener {
       override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
         val assignResult = Board.assign(game.boardData, Coordinate(i, j), if (game.moveStatus == BlackMove) Black else White)
