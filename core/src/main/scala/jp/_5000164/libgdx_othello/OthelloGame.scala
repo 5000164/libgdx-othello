@@ -108,9 +108,8 @@ class PlayScreen(game: OthelloGame) extends Screen {
           return
         }
 
-        // どちらも置ける座標が残っていなければゲーム終了として白と黒の数を数えて勝敗を決める
-        // TODO: 勝敗を決定する
-        // TODO: 結果画面へ遷移する
+        // どちらも置ける座標が残っていなければゲーム終了とする
+        game.setScreen(new ResultScreen(game))
       }
     })
     stage.addActor(tb)
@@ -158,6 +157,73 @@ class PlayScreen(game: OthelloGame) extends Screen {
 
     stage.act(delta)
     stage.draw()
+  }
+
+  override def resize(width: Int, height: Int) {}
+
+  override def show() {}
+
+  override def hide() {}
+
+  override def pause() {}
+
+  override def resume() {}
+
+  override def dispose() {}
+}
+
+class ResultScreen(game: OthelloGame) extends Screen {
+  val camera = new OrthographicCamera()
+  camera.setToOrtho(false, 800, 480)
+  lazy val shapeRenderer = new ShapeRenderer()
+  lazy val blackCount: Int = (for (boardX <- 1 to 8; boardY <- 1 to 8) yield game.boardData.data(boardY)(boardX)).count(_ == Black)
+  lazy val whiteCount: Int = (for (boardX <- 1 to 8; boardY <- 1 to 8) yield game.boardData.data(boardY)(boardX)).count(_ == White)
+  lazy val resultString: String = if (blackCount > whiteCount) {
+    "Black Win"
+  } else if (blackCount < whiteCount) {
+    "White Win"
+  } else {
+    "Draw"
+  }
+
+  override def render(delta: Float) {
+    Gdx.gl.glClearColor(0, 0, 0, 1)
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
+    camera.update()
+    game.batch.setProjectionMatrix(camera.combined)
+
+    // 盤面のマス目を描画する
+    shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
+    for (i <- 1 to 8; j <- 1 to 8) {
+      val x = i * 50f
+      val y = j * 50f
+      shapeRenderer.rect(x - 25f, y - 25f, 50f, 50f)
+    }
+    shapeRenderer.end()
+
+    // 石を描画する
+    for (i <- 1 to 8; j <- 1 to 8) {
+      val x = i * 50f
+      val y = 450 - j * 50f
+      val boardX = i
+      val boardY = j
+      val shapeType = game.boardData.data(boardY)(boardX) match {
+        case Black => Some(ShapeRenderer.ShapeType.Line)
+        case White => Some(ShapeRenderer.ShapeType.Filled)
+        case Empty => None
+      }
+      if (shapeType.isDefined) {
+        shapeRenderer.begin(shapeType.get)
+        shapeRenderer.circle(x, y, 20f)
+        shapeRenderer.end()
+      }
+    }
+
+    // 結果を表示する
+    game.batch.begin()
+    game.font.draw(game.batch, s"Black $blackCount : White $whiteCount, $resultString", 20, 20)
+    game.batch.end()
   }
 
   override def resize(width: Int, height: Int) {}
