@@ -83,13 +83,34 @@ class PlayScreen(game: OthelloGame) extends Screen {
     tb.addListener(new ClickListener {
       override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
         val assignResult = Board.assign(game.boardData, Coordinate(i, j), if (game.moveStatus == BlackMove) Black else White)
+
+        // 石を置けなかった場合はなにもせずに再度操作されるのを待つ
+        if (!assignResult.assignable) {
+          return
+        }
+
+        // 盤面の情報を更新する
         game.boardData = assignResult.boardData
-        if (assignResult.assignable) {
+
+        // 相手が置ける座標が残っていれば手番を交代してゲームを続行する
+        val opponentAssignableCount = (for (boardX <- 1 to 8; boardY <- 1 to 8) yield Board.assign(game.boardData, Coordinate(boardX, boardY), if (game.moveStatus == BlackMove) White else Black).assignable).count(_ == true)
+        if (opponentAssignableCount != 0) {
           game.moveStatus = game.moveStatus match {
             case BlackMove => WhiteMove
             case WhiteMove => BlackMove
           }
+          return
         }
+
+        // 相手が置ける座標が残ってなく自分の置ける座標が残っていれば相手はパスとして自分の手番のままゲームを続行する
+        val oneselfAssignableCount = (for (boardX <- 1 to 8; boardY <- 1 to 8) yield Board.assign(game.boardData, Coordinate(boardX, boardY), if (game.moveStatus == BlackMove) Black else White).assignable).count(_ == true)
+        if (oneselfAssignableCount != 0) {
+          return
+        }
+
+        // どちらも置ける座標が残っていなければゲーム終了として白と黒の数を数えて勝敗を決める
+        // TODO: 勝敗を決定する
+        // TODO: 結果画面へ遷移する
       }
     })
     stage.addActor(tb)
